@@ -55,5 +55,5 @@ func main() {
 	r.POST("/article", handler.ArticlePost(article))
 	r.POST("/user/login", handler.UserPost(user))
 
-	r.Run() // listen and serve on 0.0.0.0:8080
+	r.Run(os.Getenv("HTTP_HOST") + ":" + os.Getenv("HTTP_PORT")) // listen and serve on 0.0.0.0:8080
 }

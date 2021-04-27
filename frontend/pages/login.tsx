@@ -29,7 +29,7 @@ const Login = () => {
 
   const onClickLogin = () => {
     axios
-      .post('/api/login', payload)
+      .post('localhost:8080/user/login', payload)
       .then((res) => {
         // ログインフラグをクッキーへ、「auth」というキーで登録
         setCookie(null, 'auth', 'true', {

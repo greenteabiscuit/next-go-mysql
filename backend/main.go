@@ -7,6 +7,7 @@ import (
 	"github.com/greenteabiscuit/next-gin-mysql/backend/article"
 	"github.com/greenteabiscuit/next-gin-mysql/backend/handler"
 	"github.com/greenteabiscuit/next-gin-mysql/backend/lib"
+	"github.com/greenteabiscuit/next-gin-mysql/backend/user"
 	"github.com/joho/godotenv"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	}
 
 	article := article.New()
+	user := user.New()
 
 	lib.DBOpen()
 	defer lib.DBClose()
@@ -26,6 +28,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/article", handler.ArticlesGet(article))
 	r.POST("/article", handler.ArticlePost(article))
+	r.POST("/user/login", handler.UserPost(user))
 
 	r.Run() // listen and serve on 0.0.0.0:8080
 }

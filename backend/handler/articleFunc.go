@@ -25,7 +25,7 @@ func ArticlePost(post *article.Articles) gin.HandlerFunc {
 		requestBody := ArticlePostRequest{}
 		c.Bind(&requestBody)
 
-		item := article.Item{
+		item := article.Article{
 			Title:       requestBody.Title,
 			Description: requestBody.Description,
 		}

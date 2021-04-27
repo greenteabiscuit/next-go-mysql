@@ -28,5 +28,10 @@ func (r *Articles) Add(a Article) {
 }
 
 func (r *Articles) GetAll() []Article {
-	return r.Items
+	db := lib.GetDBConn().DB
+	var articles []Article
+	if err := db.Find(&articles).Error; err != nil {
+		return nil
+	}
+	return articles
 }

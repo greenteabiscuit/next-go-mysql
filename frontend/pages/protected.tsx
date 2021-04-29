@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/client'
 import Layout from '../components/layout'
 import AccessDenied from '../components/access-denied'
+import { PinterestLayout } from '../components/pinterestLayout'
 
 export default function Page () {
   const [ session, loading ] = useSession()
@@ -28,6 +29,7 @@ export default function Page () {
     <Layout>
       <h1>Protected Page</h1>
       <p><strong>{content || "\u00a0"}</strong></p>
+      <PinterestLayout/>
     </Layout>
   )
 }

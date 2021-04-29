@@ -1,66 +1,32 @@
-import { NextPageContext } from 'next';
-import { AppProps } from 'next/app';
-import { parseCookies } from 'nookies';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { Provider } from "next-auth/client"
+import type { AppProps } from "next/app"
+import "./styles.css"
 
-const MyApp = ({ Component, pageProps }: AppProps, ctx: NextPageContext) => {
-  const router = useRouter();
-  const cookies = parseCookies(ctx);
-
-  // 第二引数に空配列を指定してマウント・アンマウント毎（CSRでの各画面遷移時）に呼ばれるようにする
-  useEffect(() => {
-    // CSR用認証チェック
-
-    router.beforePopState(({ url, as, options }) => {
-      // ログイン画面とエラー画面遷移時のみ認証チェックを行わない
-      if (url !== '/login' && url !== '/_error') {
-        if (typeof cookies.auth === 'undefined') {
-          // CSR用リダイレクト処理
-          window.location.href = '/login';
-          return false;
-        }
-      }
-      return true;
-    });
-  }, []);
-
-  const component =
-    typeof pageProps === 'undefined' ? null : <Component {...pageProps} />;
-
-  return component;
-};
-
-MyApp.getInitialProps = async (appContext: any) => {
-  // SSR用認証チェック
-
-  const cookies = parseCookies(appContext.ctx);
-  // ログイン画面とエラー画面遷移時のみ認証チェックを行わない
-  if (
-    appContext.ctx.pathname !== '/login' &&
-    appContext.ctx.pathname !== '/_error'
-  ) {
-    if (typeof cookies.auth === 'undefined') {
-     // SSR or CSRを判定
-      const isServer = typeof window === 'undefined';
-      if (isServer) {
-        console.log('in ServerSide');
-        appContext.ctx.res.statusCode = 302;
-        appContext.ctx.res.setHeader('Location', '/login');
-        return {};
-      } else {
-        console.log('in ClientSide');
-      }
-    }
-  }
-  return {
-    pageProps: {
-      ...(appContext.Component.getInitialProps
-        ? await appContext.Component.getInitialProps(appContext.ctx)
-        : {}),
-      pathname: appContext.ctx.pathname,
-    },
-  };
-};
-
-export default MyApp;
+// Use the <Provider> to improve performance and allow components that call
+// `useSession()` anywhere in your application to access the `session` object.
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <Provider
+      // Provider options are not required but can be useful in situations where
+      // you have a short session maxAge time. Shown here with default values.
+      options={{
+        // Client Max Age controls how often the useSession in the client should
+        // contact the server to sync the session state. Value in seconds.
+        // e.g.
+        // * 0  - Disabled (always use cache value)
+        // * 60 - Sync session state with server if it's older than 60 seconds
+        clientMaxAge: 0,
+        // Keep Alive tells windows / tabs that are signed in to keep sending
+        // a keep alive request (which extends the current session expiry) to
+        // prevent sessions in open windows from expiring. Value in seconds.
+        //
+        // Note: If a session has expired when keep alive is triggered, all open
+        // windows / tabs will be updated to reflect the user is signed out.
+        keepAlive: 0,
+      }}
+      session={pageProps.session}
+    >
+      <Component {...pageProps} />
+    </Provider>
+  )
+}

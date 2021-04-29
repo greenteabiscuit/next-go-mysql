@@ -22,11 +22,10 @@ const styles = {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, 250px)',
         gridAutoRows: '10px',
-        position: 'absolute' as 'absolute',
         left: '50%',
-        transform: 'translateX(-50%)',
         justifyContent: 'center',
         backgroundColor: 'white',
+        centerAlign: 'true',
         opacity: '100%'
     }
 }

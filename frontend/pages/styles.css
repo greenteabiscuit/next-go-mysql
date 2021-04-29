@@ -4,6 +4,7 @@ body {
   max-width: 680px;
   margin: 0 auto;
   background: #fff;
+  max-height: 1000px;
   color: #333;
 }
 

@@ -1,12 +1,30 @@
 import React, {FC} from 'react';
 
-export const Card: FC<{}> = () => {
+export const Card: FC<{ size: string }> = ({size}) => {
     return (
-        <div style={{
-            ...styles.card,
-            ...styles.small
-        }}>
-        </div>
+        <>
+            {size === "small" &&
+                <div style={{
+                    ...styles.card,
+                    ...styles.small
+                }}>
+                </div>
+            }
+            {size === "medium" &&
+                <div style={{
+                    ...styles.card,
+                    ...styles.medium
+                }}>
+                </div>
+            }
+            {size === "large" &&
+                <div style={{
+                    ...styles.card,
+                    ...styles.large
+                }}>
+                </div>
+            }
+        </>
     )
 }
 

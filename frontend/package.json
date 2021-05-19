@@ -25,6 +25,7 @@
     "semi": false
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "next": "^10.0.7",
     "next-auth": "latest",
     "react": "^17.0.1",

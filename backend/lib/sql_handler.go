@@ -43,13 +43,14 @@ func NewSQLHandler() *SQLHandler {
 	// Todo: USE_HEROKU = 1のときと場合分け
 	if os.Getenv("USE_HEROKU") != "1" {
 		dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + dbName + "?parseTime=true&loc=Asia%2FTokyo"
+		fmt.Println(dsn)
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			panic(err)
 		}
 	} /*else {
 		var (
-			instanceConnectionName = os.Getenv("DB_CONNECTION_NAME") // e.g. 'project:region:instance'
+			instanceConnectionName = os.Getenv("DB_CONNECTION_NAME")
 		)
 
 		dbURI := fmt.Sprintf("%s:%s@unix(/cloudsql/%s)/%s?parseTime=true", user, password, instanceConnectionName, database)
